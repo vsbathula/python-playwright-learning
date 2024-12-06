@@ -16,15 +16,20 @@ def browser_name(pytestconfig):
     return browser
 
 
+@pytest.fixture(scope="session")
+def headless(pytestconfig):
+    head = pytestconfig.getoption("--headed") if pytestconfig.getoption("--headed") is not None else False
+    return head
+
+
 @pytest.fixture(scope="function")
-def setup(request, browser_name):
+def setup(request, browser_name, headless):
     configuration = AppConfiguration.get_app_configuration()
     common_info = AppConfiguration.get_common_info()
     base_url = common_info["baseUrl"]
     print("Base url: {0}".format(AppConfiguration.get_common_info()["baseUrl"]))
 
     # Browser options
-    headless = eval(configuration["headless"])  # convert to bool
     slow_mo = float(configuration["slowMo"])
     launch_options = {"headless": headless, "slow_mo": slow_mo}
 
