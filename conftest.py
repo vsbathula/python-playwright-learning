@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 import base64
 
@@ -5,6 +7,7 @@ from utilities.read_config import AppConfiguration
 from utilities.axe_helper import AxeHelper
 from playwright.sync_api import sync_playwright
 from axe_core_python.sync_playwright import Axe
+from pytest_metadata.plugin import metadata_key
 
 
 @pytest.fixture(scope="session")
@@ -17,7 +20,8 @@ def browser_name(pytestconfig):
 def setup(request, browser_name):
     configuration = AppConfiguration.get_app_configuration()
     common_info = AppConfiguration.get_common_info()
-    base_url = common_info["Url"]
+    base_url = common_info["baseUrl"]
+    print("Base url: {0}".format(AppConfiguration.get_common_info()["baseUrl"]))
 
     # Browser options
     headless = eval(configuration["headless"])  # convert to bool
@@ -75,6 +79,14 @@ def pytest_runtest_makereport(item):
             screenshot_bytes = page.screenshot()
             extra.append(pytest_html.extras.image(base64.b64encode(screenshot_bytes).decode(), ''))
         report.extras = extra
+
+
+def pytest_html_report_title(report):
+    report.title = "Pytest Playwright HTML Test Report"
+
+
+def pytest_configure(config):
+    config.stash[metadata_key]["Project"] = "Playwright Python Learning"
 
 
 @pytest.fixture(scope="session")

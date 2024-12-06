@@ -4,7 +4,7 @@
     "defaultNavigationTimeout": "120000",
     "defaultTimeout": "60000",
     "commonInfo" : {
-      "Url" : "https://www.saucedemo.com"
+      "baseUrl" : "https://www.saucedemo.com"
     },
     "users": {
       "validUser": {
