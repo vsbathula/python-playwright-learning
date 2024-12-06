@@ -6,5 +6,5 @@ pytest-base-url~=2.1.0
 pytest-playwright~=0.6.2
 pytest-split~=0.10.0
 pytest_xdist~=3.6.1
-pytest-html~=4.1.1
+pytest-reporter-html1~=0.9.2
 requests~=2.32.3
